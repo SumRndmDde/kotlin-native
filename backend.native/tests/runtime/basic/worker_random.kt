@@ -22,7 +22,7 @@ fun testRandomWorkers() {
         Random.seed = seed
         // Produce a list of random numbers in each worker
         val futures = Array(workers.size, { workerIndex ->
-            workers[workerIndex].schedule(TransferMode.CHECKED, { workerIndex }) { input ->
+            workers[workerIndex].schedule(TransferMode.SAFE, { workerIndex }) { input ->
                 Array(10, { Random.nextInt() }).toList()
             }
         })

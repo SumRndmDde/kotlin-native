@@ -21,7 +21,7 @@ fun main(args: Array<String>) {
     val worker = startWorker()
     val dataParam = DataParam(17)
     val future = try {
-        worker.schedule(TransferMode.CHECKED,
+        worker.schedule(TransferMode.SAFE,
                 { WorkerArgument(42, dataParam) },
                 { input -> WorkerResult(input.intParam, input.dataParam.toString() + " result") }
         )

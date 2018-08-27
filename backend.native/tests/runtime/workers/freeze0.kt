@@ -19,7 +19,7 @@ data class SharedData(val string: String, val int: Int, val member: SharedDataMe
     val immutable = SharedData("Hello", 10, SharedDataMember(0.1)).freeze()
     println("frozen bit is ${immutable.isFrozen}")
 
-    val future = worker.schedule(TransferMode.CHECKED, { immutable } ) {
+    val future = worker.schedule(TransferMode.SAFE, { immutable } ) {
         input ->
         println("Worker: $input")
         input

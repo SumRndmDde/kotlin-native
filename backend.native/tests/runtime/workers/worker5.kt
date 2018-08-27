@@ -11,7 +11,7 @@ import kotlin.native.concurrent.*
 
 @Test fun runTest() {
     val worker = startWorker()
-    val future = worker.schedule(TransferMode.CHECKED, { "zzz" }) {
+    val future = worker.schedule(TransferMode.SAFE, { "zzz" }) {
         input -> input.length
     }
     future.consume {

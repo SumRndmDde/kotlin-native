@@ -362,7 +362,7 @@ class DecoderWorker : Disposable {
         }
 
         // Pack all state and pass it to the worker.
-        worker.schedule(TransferMode.CHECKED, {
+        worker.schedule(TransferMode.SAFE, {
                 Decoder(context.ptr,
                     videoStreamIndex, audioStreamIndex,
                     videoContext, audioContext)
@@ -371,7 +371,7 @@ class DecoderWorker : Disposable {
     }
 
     fun start(videoOutput: VideoOutput, audioOutput: AudioOutput) {
-        worker.schedule(TransferMode.CHECKED,
+        worker.schedule(TransferMode.SAFE,
             { Pair(
                 videoOutput.toVideoDecoderOutput(),
                 audioOutput.toAudioDecoderOutput())
@@ -381,7 +381,7 @@ class DecoderWorker : Disposable {
     }
 
     fun stop() {
-        worker.schedule(TransferMode.CHECKED, { null }) {
+        worker.schedule(TransferMode.SAFE, { null }) {
             decoder?.run {
                 dispose()
                 decoder = null
@@ -390,18 +390,18 @@ class DecoderWorker : Disposable {
     }
 
     fun done(): Boolean =
-        worker.schedule(TransferMode.CHECKED, { null }) { decoder?.done() ?: true }.result()
+        worker.schedule(TransferMode.SAFE, { null }) { decoder?.done() ?: true }.result()
 
     fun requestDecodeChunk() {
-        worker.schedule(TransferMode.CHECKED, { null }) { decoder?.decodeIfNeeded() }.result()
+        worker.schedule(TransferMode.SAFE, { null }) { decoder?.decodeIfNeeded() }.result()
     }
 
     fun nextVideoFrame(): VideoFrame? =
-        worker.schedule(TransferMode.CHECKED, { null }) { decoder?.nextVideoFrame() }.result()
+        worker.schedule(TransferMode.SAFE, { null }) { decoder?.nextVideoFrame() }.result()
 
     fun nextAudioFrame(size: Int): AudioFrame? =
-        worker.schedule(TransferMode.CHECKED, { size }) { decoder?.nextAudioFrame(it) }.result()
+        worker.schedule(TransferMode.SAFE, { size }) { decoder?.nextAudioFrame(it) }.result()
 
     fun audioVideoSynced(): Boolean =
-        worker.schedule(TransferMode.CHECKED, { null }) { decoder?.audioVideoSynced() ?: true }.result()
+        worker.schedule(TransferMode.SAFE, { null }) { decoder?.audioVideoSynced() ?: true }.result()
 }

@@ -15,7 +15,7 @@ import kotlin.native.concurrent.*
 
     for (attempt in 1 .. 3) {
         val futures = Array(workers.size,
-                { i -> workers[i].schedule(TransferMode.CHECKED, { "$attempt: Input $i" })
+                { i -> workers[i].schedule(TransferMode.SAFE, { "$attempt: Input $i" })
                 { input -> input + " processed" }
         })
         futures.forEachIndexed { index, future ->

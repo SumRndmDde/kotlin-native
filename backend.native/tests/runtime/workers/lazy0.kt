@@ -36,7 +36,7 @@ fun testSingleData(workers: Array<Worker>) {
     val set = mutableSetOf<Any?>()
     for (attempt in 1 .. 3) {
         val futures = Array(workers.size, { workerIndex ->
-            workers[workerIndex].schedule(TransferMode.CHECKED, { "" }) { _  -> Immutable2.y }
+            workers[workerIndex].schedule(TransferMode.SAFE, { "" }) { _  -> Immutable2.y }
         })
         futures.forEach { set += it.result() }
     }
@@ -48,7 +48,7 @@ fun testFrozenLazy(workers: Array<Worker>) {
     val set = mutableSetOf<Int>()
     for (attempt in 1 .. 3) {
         val futures = Array(workers.size, { workerIndex ->
-            workers[workerIndex].schedule(TransferMode.CHECKED, { "" }) { _  -> Immutable3.x }
+            workers[workerIndex].schedule(TransferMode.SAFE, { "" }) { _  -> Immutable3.x }
         })
         futures.forEach { set += it.result() }
     }
